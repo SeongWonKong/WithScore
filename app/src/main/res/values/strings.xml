@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">WithScore</string>
+    <string name="korean_app_name">악보와 함께</string>
+
+    <!-- 홈화면 메뉴 -->
+    <string name="score_storage">악보 보관함</string>
+    <string name="load_score">악보 불러오기</string>
+    <string name="tutorial">튜토리얼</string>
+    <string name="setting">설정</string>
+
+
 </resources>

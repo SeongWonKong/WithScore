@@ -1,6 +1,9 @@
 package com.withscore.seongwonkong.withscore.base;
 
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.MenuItem;
 
 import com.toast.android.analytics.GameAnalytics;
 
@@ -9,6 +12,22 @@ import com.toast.android.analytics.GameAnalytics;
  */
 
 public class BaseActivity extends AppCompatActivity {
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (getParentActivityIntent() == null) {
+                    onBackPressed();
+                } else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onResume() {

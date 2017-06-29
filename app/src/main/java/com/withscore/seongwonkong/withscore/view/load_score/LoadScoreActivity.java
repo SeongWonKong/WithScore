@@ -25,6 +25,8 @@ import android.widget.TextView;
 
 import com.withscore.seongwonkong.withscore.R;
 import com.withscore.seongwonkong.withscore.application.AppApplication;
+import com.withscore.seongwonkong.withscore.application.AppNavigator;
+import com.withscore.seongwonkong.withscore.base.BaseActivity;
 import com.withscore.seongwonkong.withscore.util.ViewUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,7 +34,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LoadScoreActivity extends AppCompatActivity {
+public class LoadScoreActivity extends BaseActivity {
     public static final String TAG = "LoadScoreActivity";
 
     @BindView(R.id.load_score_tool_bar)
@@ -69,22 +71,6 @@ public class LoadScoreActivity extends AppCompatActivity {
         init();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (getParentActivityIntent() == null) {
-                    Log.i(TAG, "You have forgotten to specify the parentActivityName in the AndroidManifest!");
-                    onBackPressed();
-                } else {
-                    NavUtils.navigateUpFromSameTask(this);
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void init() {
         isEditable = false;
         mEditButton.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +104,16 @@ public class LoadScoreActivity extends AppCompatActivity {
                 }
             });
             imageView.setMaxWidth(ViewUtils.getDisplayWidthPx(LoadScoreActivity.this) / 3);
-            imageView.setImageDrawable(getDrawable(R.drawable.cannon_1 + i));
+            final int drawableResId = R.drawable.cannon_1 + i;
+            imageView.setImageDrawable(getDrawable(drawableResId));
+            gridLayoutItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isEditable) {
+                        AppNavigator.goSingleScoreActivity(LoadScoreActivity.this, drawableResId);
+                    }
+                }
+            });
             gridLayoutItem.setOnLongClickListener(new LongPressListener());
             mGridLayout.addView(gridLayoutItem);
         }

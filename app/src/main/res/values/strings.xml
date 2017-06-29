@@ -8,4 +8,9 @@
     <string name="setting">설정</string>
 
 
+    <string name="load_score_step_1">첫 번째 단계!</string>
+    <string name="load_score_step_1_content">악보를 잘 불러왔나 확인해주세요!</string>
+    <string name="load_score_edit_button">편집</string>
+    <string name="load_score_finish_edit_button">편집 완료</string>
+    <string name="load_score_next_step">다음</string>
 </resources>

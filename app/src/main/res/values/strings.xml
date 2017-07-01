@@ -7,10 +7,17 @@
     <string name="tutorial">튜토리얼</string>
     <string name="setting">설정</string>
 
+    <string name="select_from_gallery">악보 불러오기</string>
 
     <string name="load_score_step_1">첫 번째 단계!</string>
     <string name="load_score_step_1_content">악보를 잘 불러왔나 확인해주세요!</string>
+    <string name="load_score_button">+</string>
     <string name="load_score_edit_button">편집</string>
     <string name="load_score_finish_edit_button">편집 완료</string>
+    <string name="load_score_edit_toast_message">편집을 시작합니다.\n순서를 바꾸려면 악보를 길게 클릭해주세요!</string>
     <string name="load_score_next_step">다음</string>
+
+
+    <string name="load_score_step_2">두 번째 단계!</string>
+    <string name="load_score_step_2_content">악보를 가이드에 맞추어 잘라주세요!</string>
 </resources>

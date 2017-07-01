@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="main_color">#4d7fa6</color>
+    <color name="dark_text">#444</color>
+    <color name="default_text">#666</color>
+    <color name="default_background">#f5f5f5</color>
 </resources>

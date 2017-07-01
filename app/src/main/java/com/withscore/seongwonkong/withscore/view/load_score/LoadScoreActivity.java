@@ -4,8 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.ClipData;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.LayoutInflaterCompat;
@@ -20,15 +24,20 @@ import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.withscore.seongwonkong.withscore.R;
 import com.withscore.seongwonkong.withscore.application.AppApplication;
 import com.withscore.seongwonkong.withscore.application.AppNavigator;
 import com.withscore.seongwonkong.withscore.base.BaseActivity;
 import com.withscore.seongwonkong.withscore.util.ViewUtils;
+import com.withscore.seongwonkong.withscore.view.common.CommonToast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import butterknife.BindView;
@@ -53,6 +62,10 @@ public class LoadScoreActivity extends BaseActivity {
     TextView mNextButton;
 
     private boolean isEditable;
+    String imageEncoded;
+    List<String> imagesEncodedList;
+
+    private List<Uri> uriList;
 
     private ValueAnimator mAnimator;
     private AtomicBoolean mIsScrolling = new AtomicBoolean(false);
@@ -67,8 +80,71 @@ public class LoadScoreActivity extends BaseActivity {
 
         mInflater = LayoutInflater.from(AppApplication.sApplication);
         initToolbar();
-        initGridLayout();
-        init();
+
+        AppNavigator.goMultiSelectFromGallery(LoadScoreActivity.this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+            // When an Image is picked
+            if (requestCode == AppNavigator.REQUEST_CODE_SELECT_MULTIPLE_FROM_GALLERY && resultCode == RESULT_OK
+                    && null != data) {
+                if (uriList == null) {
+                    uriList = new ArrayList<>();
+                }
+
+                // Get the Image from data
+
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                imagesEncodedList = new ArrayList<String>();
+                if(data.getData()!=null){
+
+                    Uri mImageUri=data.getData();
+                    uriList.add(mImageUri);
+
+                    // Get the cursor
+                    Cursor cursor = getContentResolver().query(mImageUri,
+                            filePathColumn, null, null, null);
+                    // Move to first row
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    imageEncoded  = cursor.getString(columnIndex);
+                    cursor.close();
+
+                } else {
+                    if (data.getClipData() != null) {
+                        ClipData mClipData = data.getClipData();
+                        ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                        for (int i = 0; i < mClipData.getItemCount(); i++) {
+
+                            ClipData.Item item = mClipData.getItemAt(i);
+                            Uri uri = item.getUri();
+                            uriList.add(uri);
+                            mArrayUri.add(uri);
+                            // Get the cursor
+                            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+                            // Move to first row
+                            cursor.moveToFirst();
+
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            imageEncoded  = cursor.getString(columnIndex);
+                            imagesEncodedList.add(imageEncoded);
+                            cursor.close();
+
+                        }
+                        Log.v("LOG_TAG", "Selected Images" + uriList.size());
+                    }
+                }
+//                Log.d("KONG", imageEncoded + "");
+                initGridLayout();
+                init();
+            } else {
+                Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+            }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void init() {
@@ -80,6 +156,14 @@ public class LoadScoreActivity extends BaseActivity {
                 mEditButton.setText(isEditable ? getString(R.string.load_score_finish_edit_button) : getString(R.string.load_score_edit_button));
                 setNextButtonEnabled(!isEditable);
                 enableDeleteButtonInsideGridLayout(isEditable);
+                if (isEditable) {
+                    mGridLayout.removeViewAt(mGridLayout.getChildCount() - 1);
+                    new CommonToast(LoadScoreActivity.this).make(getString(R.string.load_score_edit_toast_message));
+                }
+                else {
+                    final View gridLayoutItem =  mInflater.inflate(R.layout.view_single_score_item, null);
+                    addEmptyLoadView(gridLayoutItem);
+                }
             }
         });
     }
@@ -91,10 +175,19 @@ public class LoadScoreActivity extends BaseActivity {
     }
 
     private void initGridLayout() {
-        for (int i = 0 ; i < 5 ; i++) {
+        mGridLayout.removeAllViews();
+        int size = uriList.size() + 1;
+
+
+        for (int i = 0 ; i < size ; i++) {
             final View gridLayoutItem =  mInflater.inflate(R.layout.view_single_score_item, null);
             ImageView imageView = gridLayoutItem.findViewById(R.id.single_score_image_view);
             ImageView deleteButton = gridLayoutItem.findViewById(R.id.delete_button);
+            if (size - 1 == i) {
+                addEmptyLoadView(gridLayoutItem);
+                break;
+            }
+
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -103,14 +196,16 @@ public class LoadScoreActivity extends BaseActivity {
                     }
                 }
             });
-            imageView.setMaxWidth(ViewUtils.getDisplayWidthPx(LoadScoreActivity.this) / 3);
-            final int drawableResId = R.drawable.cannon_1 + i;
-            imageView.setImageDrawable(getDrawable(drawableResId));
+            int width = ViewUtils.getDisplayWidthPx(LoadScoreActivity.this) / 3;
+            ((RelativeLayout.LayoutParams) imageView.getLayoutParams()).width = width;
+            ((RelativeLayout.LayoutParams) imageView.getLayoutParams()).height = (int) (width * 1.414f);
+            final Uri uri = uriList.get(i);
+            imageView.setImageURI(uri);
             gridLayoutItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!isEditable) {
-                        AppNavigator.goSingleScoreActivity(LoadScoreActivity.this, drawableResId);
+                        AppNavigator.goSingleScoreActivity(LoadScoreActivity.this, uri);
                     }
                 }
             });
@@ -122,6 +217,22 @@ public class LoadScoreActivity extends BaseActivity {
 
     }
 
+    private void addEmptyLoadView(final View gridLayoutItem) {
+        gridLayoutItem.setBackgroundResource(R.drawable.load_button_dashed_border);
+        TextView loadMoreButton = gridLayoutItem.findViewById(R.id.single_score_load_more);
+        int width = ViewUtils.getDisplayWidthPx(LoadScoreActivity.this) / 3;
+        ((RelativeLayout.LayoutParams) loadMoreButton.getLayoutParams()).width = width;
+        ((RelativeLayout.LayoutParams) loadMoreButton.getLayoutParams()).height = (int) (width * 1.414f);
+        loadMoreButton.setVisibility(View.VISIBLE);
+        loadMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppNavigator.goMultiSelectFromGallery(LoadScoreActivity.this);
+            }
+        });
+        mGridLayout.addView(gridLayoutItem);
+        return;
+    }
     private void enableDeleteButtonInsideGridLayout(final boolean isEnabled) {
         for (int i = 0 ; i < mGridLayout.getChildCount() ; i++) {
             mGridLayout.getChildAt(i).findViewById(R.id.delete_button).setVisibility(isEnabled ? View.VISIBLE : View.GONE);

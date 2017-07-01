@@ -3,8 +3,10 @@ package com.withscore.seongwonkong.withscore.application;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 import com.withscore.seongwonkong.withscore.HomeActivity;
+import com.withscore.seongwonkong.withscore.R;
 import com.withscore.seongwonkong.withscore.view.load_score.LoadScoreActivity;
 import com.withscore.seongwonkong.withscore.view.load_score.SingleScoreActivity;
 
@@ -13,6 +15,8 @@ import com.withscore.seongwonkong.withscore.view.load_score.SingleScoreActivity;
  */
 
 public class AppNavigator {
+
+    public static final int REQUEST_CODE_SELECT_MULTIPLE_FROM_GALLERY = 89;
     public static void goHomeActivity(Activity activity) {
         Intent intent = new Intent(activity, HomeActivity.class);
         activity.startActivity(intent);
@@ -24,9 +28,17 @@ public class AppNavigator {
         activity.startActivity(intent);
     }
 
-    public static void goSingleScoreActivity(Activity activity, int drawableResId) {
+    public static void goSingleScoreActivity(Activity activity, Uri uri) {
         Intent intent = new Intent(activity, SingleScoreActivity.class);
-        intent.putExtra("drawable", drawableResId);
+        intent.putExtra("uri", uri);
         activity.startActivity(intent);
+    }
+
+    public static void goMultiSelectFromGallery(Activity activity) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        activity.startActivityForResult(Intent.createChooser(intent, AppApplication.sApplication.getString(R.string.select_from_gallery)), REQUEST_CODE_SELECT_MULTIPLE_FROM_GALLERY);
     }
 }

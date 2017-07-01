@@ -2,30 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@color/default_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="5dp">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/piano_1"
-            android:layout_gravity="center_horizontal"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/korean_app_name"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="15dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:src="@drawable/piano_i"
             />
 
     </LinearLayout>
@@ -33,58 +22,124 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/with_piano"
+        android:src="@drawable/advertisement_area_666"
+        android:background="@drawable/with_piano"
         android:adjustViewBounds="true"
         />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:paddingBottom="15dp">
-        <TextView
-            android:id="@+id/score_storage_btn"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/score_storage"
-            android:textColor="@android:color/white"
-            android:textSize="15dp"
-            android:padding="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/ballon_2_666">
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="36dp"
+                android:background="@drawable/score_storage"
+                />
+            <TextView
+                android:id="@+id/score_storage_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_storage"
+                android:textColor="@color/default_text"
+                android:textSize="15dp"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/load_store_btn"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/load_score"
-            android:textColor="@android:color/white"
-            android:textSize="15dp"
-            android:padding="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/ballon_5_666">
+            <ImageView
+                android:layout_width="51dp"
+                android:layout_height="34dp"
+                android:background="@drawable/load_score"
+                />
+            <TextView
+                android:id="@+id/load_store_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/load_score"
+                android:textColor="@color/default_text"
+                android:textSize="15dp"
+                android:padding="5dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tutorial_btn"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tutorial"
-            android:textColor="@android:color/white"
-            android:textSize="15dp"
-            android:padding="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/ballon_3_666">
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/tutorial"
+                    />
+                <TextView
+                    android:id="@+id/tutorial_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tutorial"
+                    android:textColor="@color/default_text"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:padding="5dp"
+                    android:gravity="center"/>
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/setting_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/setting"
-            android:textColor="@android:color/white"
-            android:textSize="15dp"
-            android:padding="5dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"/>
+            <android.support.v4.widget.Space
+                android:layout_width="15dp"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/ballon_4_666">
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:background="@drawable/setting"/>
+                <TextView
+                    android:id="@+id/setting_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting"
+                    android:textColor="@color/default_text"
+                    android:textSize="15dp"
+                    android:padding="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

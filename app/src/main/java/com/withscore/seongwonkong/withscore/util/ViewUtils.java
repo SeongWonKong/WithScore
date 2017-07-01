@@ -27,7 +27,7 @@ public class ViewUtils {
     public static int getDisplayWidthPx(Activity activity) {
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        return metrics.widthPixels;
+        return metrics.widthPixels - ViewUtils.convertDpToPx(30);
     }
 
     public static int getDisplayHeightPx(Activity activity) {

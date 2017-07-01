@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.toast.android.analytics.GameAnalytics;
+import com.tsengvn.typekit.Typekit;
 
 /**
  * Created by seongwonkong on 2017. 6. 28..
@@ -28,6 +29,12 @@ public class AppApplication extends Application {
 
     private void init() {
         initToastAnalytics();
+        initCustomFont();
+    }
+
+    private void initCustomFont() {
+        Typekit.getInstance()
+                .addNormal(Typekit.createFromAsset(this, "BMJUA_otf.otf"));
     }
 
     private class GoogleAppIdTask extends AsyncTask<Void, Void, String> {

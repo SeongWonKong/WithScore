@@ -1,6 +1,7 @@
 package com.withscore.seongwonkong.withscore.view.load_score;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
@@ -41,8 +42,8 @@ public class SingleScoreActivity extends BaseActivity {
 
     public void init(Intent intent) {
         if (intent != null) {
-            int drawableResId = intent.getIntExtra("drawable", -1);
-            mSingleScoreImageView.setImageResource(drawableResId);
+            Uri uri = intent.getParcelableExtra("uri");
+            mSingleScoreImageView.setImageURI(uri);
         }
     }
 }

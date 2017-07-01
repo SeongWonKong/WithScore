@@ -1,11 +1,21 @@
 package com.withscore.seongwonkong.withscore.base;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import com.toast.android.analytics.GameAnalytics;
+import com.tsengvn.typekit.TypekitContextWrapper;
+import com.withscore.seongwonkong.withscore.R;
+import com.withscore.seongwonkong.withscore.application.AppApplication;
+import com.withscore.seongwonkong.withscore.application.AppNavigator;
+import com.withscore.seongwonkong.withscore.view.load_score.LoadScoreActivity;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by seongwonkong on 2017. 6. 28..
@@ -13,6 +23,10 @@ import com.toast.android.analytics.GameAnalytics;
 
 public class BaseActivity extends AppCompatActivity {
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -43,5 +57,12 @@ public class BaseActivity extends AppCompatActivity {
         if (GameAnalytics.isInitialized()) {
             GameAnalytics.traceDeactivation(this);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+
     }
 }

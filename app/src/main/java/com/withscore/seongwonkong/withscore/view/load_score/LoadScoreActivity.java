@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
@@ -46,8 +47,8 @@ import butterknife.ButterKnife;
 public class LoadScoreActivity extends BaseActivity {
     public static final String TAG = "LoadScoreActivity";
 
-    @BindView(R.id.load_score_tool_bar)
-    Toolbar mToolbar;
+    @BindView(R.id.back_button)
+    ImageView mBackButton;
 
     @BindView(R.id.score_grid_layout)
     GridLayout mGridLayout;
@@ -79,9 +80,15 @@ public class LoadScoreActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         mInflater = LayoutInflater.from(AppApplication.sApplication);
-        initToolbar();
 
-        AppNavigator.goMultiSelectFromGallery(LoadScoreActivity.this);
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        init();
     }
 
     @Override
@@ -100,8 +107,13 @@ public class LoadScoreActivity extends BaseActivity {
                 imagesEncodedList = new ArrayList<String>();
                 if(data.getData()!=null){
 
-                    Uri mImageUri=data.getData();
-                    uriList.add(mImageUri);
+                    Uri mImageUri = data.getData();
+                    if (uriList != null && uriList.indexOf(mImageUri) == -1) {
+                        uriList.add(mImageUri);
+                    } else {
+                        new CommonToast(this).make(getString(R.string.load_score_duplicate));
+                    }
+
 
                     // Get the cursor
                     Cursor cursor = getContentResolver().query(mImageUri,
@@ -121,7 +133,11 @@ public class LoadScoreActivity extends BaseActivity {
 
                             ClipData.Item item = mClipData.getItemAt(i);
                             Uri uri = item.getUri();
-                            uriList.add(uri);
+                            if (uriList != null && uriList.indexOf(uri) == -1) {
+                                uriList.add(uri);
+                            } else {
+                                new CommonToast(this).make(getString(R.string.load_score_duplicate));
+                            }
                             mArrayUri.add(uri);
                             // Get the cursor
                             Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
@@ -137,9 +153,7 @@ public class LoadScoreActivity extends BaseActivity {
                         Log.v("LOG_TAG", "Selected Images" + uriList.size());
                     }
                 }
-//                Log.d("KONG", imageEncoded + "");
                 initGridLayout();
-                init();
             } else {
                 Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
             }
@@ -166,12 +180,10 @@ public class LoadScoreActivity extends BaseActivity {
                 }
             }
         });
-    }
 
-    private void initToolbar() {
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setTitle(getString(R.string.load_score));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final View gridLayoutItem =  mInflater.inflate(R.layout.view_single_score_item, null);
+        addEmptyLoadView(gridLayoutItem);
     }
 
     private void initGridLayout() {
@@ -192,20 +204,24 @@ public class LoadScoreActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     if (isEditable) {
+                        final int pos = mGridLayout.indexOfChild(gridLayoutItem);
                         mGridLayout.removeView(gridLayoutItem);
+                        uriList.remove(pos);
+                        checkButtonState();
                     }
                 }
             });
             int width = ViewUtils.getDisplayWidthPx(LoadScoreActivity.this) / 3;
             ((RelativeLayout.LayoutParams) imageView.getLayoutParams()).width = width;
             ((RelativeLayout.LayoutParams) imageView.getLayoutParams()).height = (int) (width * 1.414f);
+            final int pageNum = i;
             final Uri uri = uriList.get(i);
             imageView.setImageURI(uri);
             gridLayoutItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (!isEditable) {
-                        AppNavigator.goSingleScoreActivity(LoadScoreActivity.this, uri);
+                        AppNavigator.goSingleScoreActivity(LoadScoreActivity.this, uri, uriList.indexOf(uri));
                     }
                 }
             });
@@ -214,12 +230,11 @@ public class LoadScoreActivity extends BaseActivity {
         }
 
         mGridLayout.setOnDragListener(new DragListener());
-
     }
 
     private void addEmptyLoadView(final View gridLayoutItem) {
         gridLayoutItem.setBackgroundResource(R.drawable.load_button_dashed_border);
-        TextView loadMoreButton = gridLayoutItem.findViewById(R.id.single_score_load_more);
+        View loadMoreButton = gridLayoutItem.findViewById(R.id.single_score_load_more);
         int width = ViewUtils.getDisplayWidthPx(LoadScoreActivity.this) / 3;
         ((RelativeLayout.LayoutParams) loadMoreButton.getLayoutParams()).width = width;
         ((RelativeLayout.LayoutParams) loadMoreButton.getLayoutParams()).height = (int) (width * 1.414f);
@@ -231,12 +246,24 @@ public class LoadScoreActivity extends BaseActivity {
             }
         });
         mGridLayout.addView(gridLayoutItem);
+        checkButtonState();
         return;
     }
+
+    private void checkButtonState() {
+        setNextButtonEnabled(mGridLayout.getChildCount() != 1);
+        setEditButtonEnabled(mGridLayout.getChildCount() != 1);
+    }
+
     private void enableDeleteButtonInsideGridLayout(final boolean isEnabled) {
         for (int i = 0 ; i < mGridLayout.getChildCount() ; i++) {
             mGridLayout.getChildAt(i).findViewById(R.id.delete_button).setVisibility(isEnabled ? View.VISIBLE : View.GONE);
         }
+    }
+
+    private void setEditButtonEnabled(final boolean isEnabled) {
+        mEditButton.setEnabled(isEnabled);
+        mEditButton.setTextColor(ContextCompat.getColor(this, isEnabled ? android.R.color.white : android.R.color.darker_gray));
     }
 
     private void setNextButtonEnabled(final boolean isEnabled) {
@@ -282,9 +309,13 @@ public class LoadScoreActivity extends BaseActivity {
                     }
 
                     // remove the view from the old position
+                    final int pos = mGridLayout.indexOfChild(view);
                     mGridLayout.removeView(view);
+                    final Uri uri = uriList.get(pos);
+                    uriList.remove(pos);
                     // and push to the new
                     mGridLayout.addView(view, index);
+                    uriList.add(index, uri);
                     break;
                 case DragEvent.ACTION_DROP:
                     view.setVisibility(View.VISIBLE);
@@ -348,4 +379,5 @@ public class LoadScoreActivity extends BaseActivity {
             mAnimator.cancel();
         }
     }
+
 }

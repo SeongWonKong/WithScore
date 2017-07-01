@@ -35,6 +35,7 @@
         android:paddingRight="15dp"
         android:paddingBottom="15dp">
         <LinearLayout
+            android:id="@+id/score_storage_btn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -47,7 +48,6 @@
                 android:background="@drawable/score_storage"
                 />
             <TextView
-                android:id="@+id/score_storage_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/score_storage"
@@ -60,6 +60,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/load_store_btn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -72,7 +73,6 @@
                 android:background="@drawable/load_score"
                 />
             <TextView
-                android:id="@+id/load_store_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/load_score"
@@ -91,6 +91,7 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
             <LinearLayout
+                android:id="@+id/tutorial_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -103,7 +104,6 @@
                     android:background="@drawable/tutorial"
                     />
                 <TextView
-                    android:id="@+id/tutorial_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tutorial"
@@ -119,6 +119,7 @@
                 android:layout_height="1dp" />
 
             <LinearLayout
+                android:id="@+id/setting_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -130,7 +131,6 @@
                     android:layout_height="38dp"
                     android:background="@drawable/setting"/>
                 <TextView
-                    android:id="@+id/setting_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting"

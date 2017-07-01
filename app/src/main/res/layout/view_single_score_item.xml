@@ -10,16 +10,18 @@
         android:scaleType="fitCenter"
         android:padding="3dp"/>
 
-    <TextView
+    <RelativeLayout
         android:id="@+id/single_score_load_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/load_score_button"
-        android:textColor="@android:color/darker_gray"
-        android:gravity="center"
-        android:visibility="gone"
-        />
-
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/add"
+            />
+    </RelativeLayout>
     <ImageView
         android:id="@+id/delete_button"
         android:layout_width="17dp"

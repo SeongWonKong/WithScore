@@ -6,17 +6,35 @@
     android:layout_height="match_parent"
     tools:context="com.withscore.seongwonkong.withscore.view.load_score.LoadScoreActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/load_score_tool_bar"
+    <RelativeLayout
+        android:id="@+id/top_wrap"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/black"
-        app:titleTextColor="@android:color/white"
-        />
-
+        android:layout_height="80dp">
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            />
+        <com.withscore.seongwonkong.withscore.view.load_score.component.LoadScoreStepGuide
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:step="1"
+            />
+    </RelativeLayout>
+    <View
+        android:id="@+id/border"
+        android:layout_below="@id/top_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_text"
+        android:layout_marginBottom="15dp"/>
     <ScrollView
         android:id="@+id/score_grid_scroll_view"
-        android:layout_below="@id/load_score_tool_bar"
+        android:layout_below="@id/border"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -27,11 +45,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center_horizontal">
-            <com.withscore.seongwonkong.withscore.view.load_score.component.LoadScoreStepGuide
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:step="1"
-                />
 
             <GridLayout
                 android:id="@+id/score_grid_layout"

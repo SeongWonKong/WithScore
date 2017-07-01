@@ -28,9 +28,10 @@ public class AppNavigator {
         activity.startActivity(intent);
     }
 
-    public static void goSingleScoreActivity(Activity activity, Uri uri) {
+    public static void goSingleScoreActivity(Activity activity, Uri uri, int pageNum) {
         Intent intent = new Intent(activity, SingleScoreActivity.class);
         intent.putExtra("uri", uri);
+        intent.putExtra("pageNum", pageNum);
         activity.startActivity(intent);
     }
 

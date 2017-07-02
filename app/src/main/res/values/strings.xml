@@ -21,4 +21,12 @@
 
     <string name="load_score_step_2">두 번째 단계!</string>
     <string name="load_score_step_2_content">악보를 가이드에 맞추어 잘라주세요!</string>
+    <string name="crop_score_info">%1$d / %2$d</string>
+    <string name="crop_score_prev_score_button">이전 악보</string>
+    <string name="crop_score_extract_button">추출</string>
+    <string name="crop_score_next_score_button">다음 악보</string>
+    <string name="crop_score_extract_success">추출을 완료했습니다!</string>
+
+
+    <string name="score_storage_title">악보 보관함</string>
 </resources>

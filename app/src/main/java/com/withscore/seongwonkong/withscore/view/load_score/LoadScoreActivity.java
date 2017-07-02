@@ -4,11 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
@@ -30,13 +33,20 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.withscore.seongwonkong.withscore.HomeActivity;
 import com.withscore.seongwonkong.withscore.R;
+import com.withscore.seongwonkong.withscore.WithScoreConstants;
 import com.withscore.seongwonkong.withscore.application.AppApplication;
 import com.withscore.seongwonkong.withscore.application.AppNavigator;
 import com.withscore.seongwonkong.withscore.base.BaseActivity;
+import com.withscore.seongwonkong.withscore.realm.WithScoreRealmDb;
+import com.withscore.seongwonkong.withscore.realm.WithScoreRealmDbHelper;
+import com.withscore.seongwonkong.withscore.util.FileUtils;
 import com.withscore.seongwonkong.withscore.util.ViewUtils;
 import com.withscore.seongwonkong.withscore.view.common.CommonToast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -181,6 +191,26 @@ public class LoadScoreActivity extends BaseActivity {
             }
         });
 
+        mNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<String> stringUriList = new ArrayList<>();
+                for (Uri uri : uriList) {
+                    stringUriList.add(uri.toString());
+                }
+
+                final long currentTimeStamp = System.currentTimeMillis();
+
+                BitmapDrawable drawable = (BitmapDrawable) ((ImageView)mGridLayout.findViewById(R.id.single_score_image_view)).getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                File file = saveImageFile(stream);
+
+                WithScoreRealmDbHelper.saveScore(currentTimeStamp, file.getAbsolutePath());
+                AppNavigator.goScoreCropActivity(LoadScoreActivity.this, stringUriList, currentTimeStamp);
+            }
+        });
 
         final View gridLayoutItem =  mInflater.inflate(R.layout.view_single_score_item, null);
         addEmptyLoadView(gridLayoutItem);
@@ -193,8 +223,8 @@ public class LoadScoreActivity extends BaseActivity {
 
         for (int i = 0 ; i < size ; i++) {
             final View gridLayoutItem =  mInflater.inflate(R.layout.view_single_score_item, null);
-            ImageView imageView = gridLayoutItem.findViewById(R.id.single_score_image_view);
-            ImageView deleteButton = gridLayoutItem.findViewById(R.id.delete_button);
+            ImageView imageView = (ImageView) gridLayoutItem.findViewById(R.id.single_score_image_view);
+            ImageView deleteButton = (ImageView) gridLayoutItem.findViewById(R.id.delete_button);
             if (size - 1 == i) {
                 addEmptyLoadView(gridLayoutItem);
                 break;
@@ -380,4 +410,11 @@ public class LoadScoreActivity extends BaseActivity {
         }
     }
 
+
+    private File saveImageFile(ByteArrayOutputStream stream) {
+        String fileName = "with_score_" + System.currentTimeMillis();
+        File file = FileUtils.getRepoFile(this, WithScoreConstants.WITH_SCORE_DIR_NAME, fileName);
+        FileUtils.saveFile(file.getAbsolutePath(), stream);
+        return file;
+    }
 }

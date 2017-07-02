@@ -9,13 +9,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="10dp">
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp">
 
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:src="@drawable/piano_i"
-            />
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:src="@drawable/title_with_star"
+            android:adjustViewBounds="true"/>
 
     </LinearLayout>
 

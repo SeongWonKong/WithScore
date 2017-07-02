@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -39,7 +40,6 @@ public class LoadScoreStepGuide extends LinearLayout {
 
     private void getAttrs(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.LoadScoreStepGuide);
-
         setTypeArray(typedArray);
     }
 
@@ -47,11 +47,10 @@ public class LoadScoreStepGuide extends LinearLayout {
     private void getAttrs(AttributeSet attrs, int defStyle) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.LoadScoreStepGuide, defStyle, 0);
         setTypeArray(typedArray);
-
     }
 
     private void setTypeArray(TypedArray typedArray) {
-        int step = typedArray.getResourceId(R.styleable.LoadScoreStepGuide_step, 0);
+        int step = typedArray.getInteger(R.styleable.LoadScoreStepGuide_guide_step, 0);
         setStep(step);
 
         typedArray.recycle();
@@ -63,8 +62,8 @@ public class LoadScoreStepGuide extends LinearLayout {
         View v = li.inflate(R.layout.component_load_score_step_view, this, false);
         addView(v);
 
-        titleTextView = v.findViewById(R.id.step_title);
-        contentTextView = v.findViewById(R.id.step_content);
+        titleTextView = (TextView) v.findViewById(R.id.step_title);
+        contentTextView = (TextView) v.findViewById(R.id.step_content);
 
     }
 

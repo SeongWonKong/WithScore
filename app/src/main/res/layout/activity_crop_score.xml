@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/top_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            />
+        <com.withscore.seongwonkong.withscore.view.load_score.component.LoadScoreStepGuide
+            xmlns:LoadScoreStepGuide="http://schemas.android.com/apk/res/com.withscore.seongwonkong.withscore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            LoadScoreStepGuide:guide_step="2"
+            />
+    </RelativeLayout>
+    <View
+        android:id="@+id/border"
+        android:layout_below="@id/top_wrap"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/default_text"/>
+
+    <com.theartofdev.edmodo.cropper.CropImageView
+        android:id="@+id/crop_image_view"
+        android:layout_below="@id/border"
+        android:layout_above="@+id/bottom_button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cropBorderCornerColor="@color/dark_text"/>
+    <!--<ImageView-->
+        <!--android:id="@+id/single_score_image_view"-->
+        <!--android:layout_below="@id/border"-->
+        <!--android:layout_above="@+id/bottom_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--/>-->
+
+    <TextView
+        android:id="@+id/info_text_view"
+        android:layout_below="@id/border"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/alpha_drak_background"
+        android:textColor="@android:color/white"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/black">
+
+        <TextView
+            android:id="@+id/prev_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:text="@string/crop_score_prev_score_button"
+            android:textColor="@android:color/white"
+            android:textSize="15dp"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="50dp"
+            android:background="@color/default_background"
+            />
+
+        <TextView
+            android:id="@+id/extract_button"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="50dp"
+            android:text="@string/crop_score_extract_button"
+            android:textColor="@android:color/white"
+            android:textSize="15dp"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="50dp"
+            android:background="@color/default_background"
+            />
+
+        <TextView
+            android:id="@+id/next_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:text="@string/crop_score_next_score_button"
+            android:textColor="@android:color/white"
+            android:textSize="15dp"
+            android:gravity="center"/>
+    </LinearLayout>
+</RelativeLayout>

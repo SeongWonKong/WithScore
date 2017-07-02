@@ -8,6 +8,8 @@ import android.util.Log;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.toast.android.analytics.GameAnalytics;
 import com.tsengvn.typekit.Typekit;
+import com.withscore.seongwonkong.withscore.WithScoreConstants;
+import com.withscore.seongwonkong.withscore.realm.WithScoreRealmDb;
 
 /**
  * Created by seongwonkong on 2017. 6. 28..
@@ -30,6 +32,7 @@ public class AppApplication extends Application {
     private void init() {
         initToastAnalytics();
         initCustomFont();
+        WithScoreRealmDb.init(this);
     }
 
     private void initCustomFont() {

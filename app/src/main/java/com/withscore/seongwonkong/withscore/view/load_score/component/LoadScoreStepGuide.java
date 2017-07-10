@@ -75,8 +75,12 @@ public class LoadScoreStepGuide extends LinearLayout {
                 contentTextView.setText(getContext().getText(R.string.load_score_step_1_content));
                 break;
             case 2:
-                titleTextView.setText(getContext().getText(R.string.load_score_step_2));
+                titleTextView.setText(R.string.load_score_step_2);
                 contentTextView.setText(getContext().getText(R.string.load_score_step_2_content));
+                break;
+            case 3:
+                titleTextView.setText(R.string.load_score_step_3);
+                contentTextView.setText(R.string.load_score_step_3_content);
                 break;
         }
     }

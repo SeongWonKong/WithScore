@@ -37,16 +37,10 @@
         android:layout_above="@+id/bottom_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cropBorderCornerColor="@color/dark_text"/>
-    <!--<ImageView-->
-        <!--android:id="@+id/single_score_image_view"-->
-        <!--android:layout_below="@id/border"-->
-        <!--android:layout_above="@+id/bottom_button"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:adjustViewBounds="true"-->
-        <!--android:scaleType="fitCenter"-->
-        <!--/>-->
+        app:cropBorderCornerColor="@android:color/transparent"
+        app:cropGuidelinesColor="@color/crop_guide_line"
+        app:cropBorderLineThickness="0dp"
+        app:cropGuidelines="on"/>
 
     <TextView
         android:id="@+id/info_text_view"

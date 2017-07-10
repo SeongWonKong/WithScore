@@ -5,6 +5,7 @@ import com.withscore.seongwonkong.withscore.realm.model.ScorePiece;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by seongwonkong on 2017. 7. 3..
@@ -44,17 +45,24 @@ public class WithScoreRealmDbHelper {
     public static RealmResults<Score> getScores() {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(Score.class)
-                .findAllSorted("createdDateTime");
+                .findAllSorted("createdDateTime", Sort.DESCENDING);
     }
 
-    public static void updateScore(final long seq, final String thumbnailImagePath) {
+    public static RealmResults<ScorePiece> getScorePieces(final long createdDateTime) {
+        Realm realm = Realm.getDefaultInstance();
+        return realm.where(ScorePiece.class)
+                .equalTo("scoreSeq", createdDateTime)
+                .findAllSorted("createdDateTime", Sort.ASCENDING);
+    }
+
+    public static void updateScoreTitle(final long seq, final String title) {
         Realm realm = Realm.getDefaultInstance();
         Score score = realm.where(Score.class)
                 .equalTo("seq", seq)
                 .findFirst();
 
         realm.beginTransaction();
-        score.setThumbnailImagePath(thumbnailImagePath);
+        score.setTitle(title);
         realm.insertOrUpdate(score);
         realm.commitTransaction();
         realm.close();

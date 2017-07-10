@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.withscore.seongwonkong.withscore.R;
+import com.withscore.seongwonkong.withscore.application.AppNavigator;
 import com.withscore.seongwonkong.withscore.base.BaseActivity;
 import com.withscore.seongwonkong.withscore.realm.WithScoreRealmDbHelper;
 import com.withscore.seongwonkong.withscore.realm.model.Score;
@@ -52,7 +53,12 @@ public class ScoreStorageActivity extends BaseActivity {
 
         RealmResults<Score> scores = WithScoreRealmDbHelper.getScores();
 
-        mRecyclerView.setAdapter(new ScoreStorageRecyclerAdapter(scores));
+        mRecyclerView.setAdapter(new ScoreStorageRecyclerAdapter(scores, new ScoreStorageRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onCardClick(final long createdDateTime) {
+                AppNavigator.goPlayScoreActivity(ScoreStorageActivity.this, createdDateTime);
+            }
+        }));
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
     }

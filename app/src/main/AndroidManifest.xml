@@ -51,6 +51,14 @@
         <activity android:name=".view.score_storage.ScoreStorageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+
+        <activity android:name=".view.load_score.ScoreInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+
+        <activity android:name=".view.play.PlayScoreActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
